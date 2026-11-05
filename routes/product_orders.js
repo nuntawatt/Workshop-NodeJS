@@ -9,6 +9,7 @@ const product = require('../models/product_model');
 
 const {authenticateToken} = require('../middleware/auth');
 
+// /api/v1/products/:product_id/orders
 // method get order on product
 router.get('/', authenticateToken, async function(req, res) {
     try {
@@ -51,6 +52,8 @@ router.get('/', authenticateToken, async function(req, res) {
     }
 });
 
+
+// /api/v1/products/:product_id/orders
 // method add order on product (เพิ่มออเดอร์ใน Product)
 router.post('/', authenticateToken, async function(req, res) {
     try {
