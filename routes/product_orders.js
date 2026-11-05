@@ -74,7 +74,7 @@ router.post('/', authenticateToken, async function(req, res) {
             });
         }
 
-        // Order ไม่เกิน Stock มั้ย เช็คและตัด stock
+        // Order ไม่เกิน Stock จะเช็คและตัด stock
         const products = await product.findOneAndUpdate(
             { _id: product_id, deleted_at: null, stock: { $gte: quantity } },
             { $inc: { stock: -quantity } },
