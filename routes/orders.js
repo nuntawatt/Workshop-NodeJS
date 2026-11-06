@@ -6,7 +6,6 @@ const order = require('../models/order_model');
 const {authenticateToken} = require('../middleware/auth');
 
 // /api/v1/orders
-// get order all admin
 router.get('/', authenticateToken, async function(req, res) {
     try {
         const orders = await order.find()

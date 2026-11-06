@@ -64,7 +64,6 @@ router.post('/register', async function(req, res, next) {
             })
         }
 
-        // ตรวจสอบ username ซ่ำ
         const existingUser = await userSchema.findOne({ username });
 
         if (existingUser) {
@@ -83,7 +82,6 @@ router.post('/register', async function(req, res, next) {
             is_approve: false
         })
 
-        // create jwt token
         const token = jwt.sign({
             userId: user._id,
             username: user.username,
