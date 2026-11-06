@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/users_model');
 
-// ตรวจสอบ Token และสถานะ User
 async function authenticateToken(req, res, next) {
     try {
         const authHeader = req.headers.authorization;
@@ -14,13 +13,11 @@ async function authenticateToken(req, res, next) {
             });
         }
 
-        // token ผิดหรือหมดอายุ จะ throw ไปที่ catch
         const decoded = jwt.verify(
             token,
             process.env.JWT_SECRET
         );
 
-        // ค้น user ทุกครั้ง เผื่อถูกลบหรือถูกระงับหลังออก token
         const user = await User.findById(decoded.userId);
 
         if (!user) {
@@ -39,11 +36,9 @@ async function authenticateToken(req, res, next) {
 
         req.user = user;
 
-        // ไปต่อ ถ้าไม่เรียก request จะค้าง
         next();
 
     } catch (error) {
-        // token มีปัญหาจะส่ง 401
         if (
             error.name === 'JsonWebTokenError' ||
             error.name === 'TokenExpiredError'
@@ -54,7 +49,6 @@ async function authenticateToken(req, res, next) {
             });
         }
 
-        // ให้ log error เผื่อ database ล่ม จะส่ง 500
         console.error(error);
         return res.status(500).json({
             status: 500,
@@ -63,7 +57,7 @@ async function authenticateToken(req, res, next) {
     }
 }
 
-// ตรวจสอบสิทธิ์ Admin
+
 function authorizeAdmin(req, res, next) {
     if (req.user.role !== 'admin') {
         return res.status(403).json({
