@@ -37,7 +37,6 @@ async function authenticateToken(req, res, next) {
             });
         }
 
-        // เก็บข้อมูล User ไว้ใช้ใน Route
         req.user = user;
 
         // ไปต่อ ถ้าไม่เรียก request จะค้าง
@@ -76,7 +75,4 @@ function authorizeAdmin(req, res, next) {
     next();
 }
 
-module.exports = {
-    authenticateToken,
-    authorizeAdmin
-};
+module.exports = {authenticateToken, authorizeAdmin};

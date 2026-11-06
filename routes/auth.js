@@ -32,7 +32,6 @@ router.post('/login', async function(req, res, next) {
             expiresIn: process.env.ACCESS_EXPIRESIN
         });
 
-        // send jwt json
         return res.status(200).json({
             status: 200,
             message: 'Login Success',
@@ -58,7 +57,6 @@ router.post('/register', async function(req, res, next) {
         
         const { username, password } = req.body;
 
-        // ตรวจสอบข้อมูลที่ส่งมา
         if (!username || !password) {
             return res.status(400).json({
                 status: 400,
@@ -76,10 +74,8 @@ router.post('/register', async function(req, res, next) {
             })
         }
 
-        // Hash Pass
         const hashPassword = await bcrypt.hash(password, 10);
 
-        // สร้าง user ใหม่
         const user = await userSchema.create({
             username,
             password: hashPassword,

@@ -3,9 +3,10 @@ var router = express.Router();
 
 const userSchema = require('../models/users_model');
 
+const { authenticateToken, authorizeAdmin } = require('../middleware/auth');
 
 // method approve
-router.put('/:id/approve', async function(req, res, next){
+router.put('/:id/approve', authenticateToken, authorizeAdmin, async function(req, res, next){
     try{
 
         const { id } = req.params;

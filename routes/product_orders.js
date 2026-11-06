@@ -81,7 +81,6 @@ router.post('/', authenticateToken, async function(req, res) {
             { new: true }
         );
 
-        // ถ้าไม่ผ่าน ไม่สามารถเพิ่ม Order ได้
         if (!products) {
             return res.status(400).json({
                 status: 400,
@@ -89,7 +88,6 @@ router.post('/', authenticateToken, async function(req, res) {
             });
         }
 
-        // ถ้าผ่าน บันทึก Order เก็บราคา ในตอนสั่ง
         const orders = await order.create({
             user_id: req.user._id,
             product_id: products._id,

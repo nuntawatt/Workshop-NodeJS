@@ -11,7 +11,7 @@ const {authenticateToken, authorizeAdmin} = require('../middleware/auth');
 router.get('/', authenticateToken, async function(req, res) {
 try {
     
-    // ค้นหา product โดยมีเงื่อนไขว่า delete ต้องเป็น null และเรียยงลำดับข้อมูลตามวันสร้าง
+    // ค้นหา product โดยมีเงื่อนไขว่า delete ต้องเป็น null
     const products = await product.find({
         deleted_at: null
     }).sort({ created_at: -1 });
@@ -35,7 +35,6 @@ try {
     
     const { id } = req.params;
 
-    // เช็ค URL ในรูปแบบไฟล์ ObjectId ของ mongodb
     if (!mongoose.isValidObjectId(id)){
         return res.status(400).json({
             status: 400,
@@ -74,7 +73,6 @@ try {
     
     const { name, description, price, stock } = req.body;
 
-    // ตรวจสอบส่งข้อมูลมาครบมั้ย ถ้าขาดก็ return error 400
     if (!name || price == null || stock == null) {
         return res.status(400).json({
             status: 400,
@@ -124,7 +122,6 @@ try {
     const { id } = req.params;
     const { name, description, price, stock } = req.body;
 
-    // เช็ค URL ในรูปแบบไฟล์ ObjectId ของ mongodb
     if(!mongoose.isValidObjectId(id)) {
         return res.status(400).json({
             status: 400,
@@ -132,8 +129,6 @@ try {
         });
     }
 
-
-    // ตรวจเฉพาะ field ที่ส่งมา
     if (price !== undefined && (typeof price !== 'number' || price < 0)){
         return res.status(400).json({
             status: 400,
@@ -150,8 +145,6 @@ try {
     const products = await product.findOneAndUpdate(
         { _id: id, delete_at: null },
         { $set: { name, description, price, stock }},
-        
-        // new: คืนข้อมูลใหม่ | runValidators: ตรวจกฎ schema
         { new: true, runValidators: true}
     );
 
@@ -180,7 +173,6 @@ router.delete('/:id', authenticateToken, authorizeAdmin,async function(req, res)
 try {
     const { id } = req.params;
 
-    // เช็ค URL ในรูปแบบไฟล์ ObjectId ของ mongodb
     if (!mongoose.isValidObjectId(id)) {
         return res.status(400).json({
             status: 400,
