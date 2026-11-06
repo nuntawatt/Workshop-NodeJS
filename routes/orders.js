@@ -11,7 +11,7 @@ router.get('/', authenticateToken, async function(req, res) {
     try {
         const orders = await order.find()
             .populate('user_id', 'username')
-            .populate('items.product_id', 'name')
+            .populate('product_id', 'name')
             .sort({ created_at: -1 });
 
         return res.status(200).json({

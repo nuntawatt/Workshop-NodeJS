@@ -34,7 +34,7 @@ router.get('/', authenticateToken, async function(req, res) {
             });
         }
 
-        const orders = await order.find({ 'items.product_id': product_id })
+        const orders = await order.find({ 'product_id': product_id })
             .populate('user_id', 'username')
             .sort({ created_at: -1 });
 
@@ -92,11 +92,9 @@ router.post('/', authenticateToken, async function(req, res) {
         // ถ้าผ่าน บันทึก Order เก็บราคา ในตอนสั่ง
         const orders = await order.create({
             user_id: req.user._id,
-            items: [{
-                product_id: products._id,
-                quantity,
-                price: products.price
-            }],
+            product_id: products._id,
+            quantity,
+            price: products.price,
             total_price: products.price * quantity
         });
 
