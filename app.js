@@ -6,8 +6,9 @@ var logger = require('morgan');
 
 const authRouter = require('./routes/auth');
 const productRouter = require('./routes/products');
-const orderRouter = require('./routes/orders')
-const productOrderRouter = require('./routes/product_orders')
+const orderRouter = require('./routes/orders');
+const productOrderRouter = require('./routes/product_orders');
+const userRouter = require('./routes/users');
 
 require('dotenv').config();
 require('./db')
@@ -39,6 +40,7 @@ app.use('/api/v1', authRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/products/:product_id/orders', productOrderRouter);
 app.use('/api/v1/orders', orderRouter);
+app.use('/api/v1', userRouter);
 
 
 // catch 404 and forward to error handler
